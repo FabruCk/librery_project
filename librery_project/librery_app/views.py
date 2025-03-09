@@ -88,6 +88,37 @@ class CrearLibro(generics.CreateAPIView):
         serializer.save()
         return Response({'success':True, 'detail': 'Libro creado correctamenre', 'data': serializer.data}, status=status.HTTP_201_CREATED)#Devuelve una respuesta del proceso
     
+#SHEARCH-BY-AUTOR
+class LibroByAutor(generics.ListAPIView):
+    serializer_class = LibroSerializer  # Usar el serializador adecuado
+
+    def get(self, request, idAutor):
+        libros = Libro.objects.filter(autor_id=idAutor)  # Filtrar libros por autor
+
+        if not libros.exists():
+            return Response({'success': False, 'detail': 'No se encontraron libros para este autor'}, 
+                            status=status.HTTP_404_NOT_FOUND)
+
+        serializer = LibroSerializer(libros, many=True)  # Serializar los libros encontrados
+        return Response({'success': True, 'detail': 'Libros encontrados', 'data': serializer.data}, 
+                        status=status.HTTP_200_OK)
+
+#SEARCH-BY-EDITORIAL
+class LibroByEditorial(generics.ListAPIView):
+    serializer_class = LibroSerializer  # Usar el serializador adecuado
+
+    def get(self, request, idEditorial):
+        libros = Libro.objects.filter(editorial_id=idEditorial)  # Filtrar libros por editorial
+
+        if not libros.exists():
+            return Response({'success': False, 'detail': 'No se encontraron libros para esta editorial'}, 
+                            status=status.HTTP_404_NOT_FOUND)
+
+        serializer = LibroSerializer(libros, many=True)  # Serializar los libros encontrados
+        return Response({'success': True, 'detail': 'Libros encontrados', 'data': serializer.data}, 
+                        status=status.HTTP_200_OK)
+    
+    
 #------MIEMBRO--------MIEMBRO---------MIEMBRO----------MIEMBRO-----------MIEMBRO-------------------MIEMBRO-------------MIEMBRO----- 
 
 #LISTAR

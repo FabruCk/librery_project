@@ -4,7 +4,7 @@ from django.urls import path
 from .views import (
     AutorList, CrearAutor,
     EditorialList, CrearEditorial,
-    LibroList, CrearLibro,
+    LibroList, CrearLibro, LibroByAutor, LibroByEditorial,
     MiembroList, CrearMiembro,
     PrestamoList, CrearPrestamo,
 )
@@ -26,6 +26,11 @@ urlpatterns = [
     path('libros/', LibroList.as_view(), name='libro-list'),
     # Crear una nueva persona
     path('libros/crear/', CrearLibro.as_view(), name='libro-crear'),
+    #Buscar libros por autor
+    path('libros/autor/<int:idAutor>/', LibroByAutor.as_view(), name='libros_by_autor'),
+
+    path('libros/editorial/<int:idEditorial>/', LibroByEditorial.as_view(), name='libros_by_autor'),
+
 
         # Lista de personas
     path('miembro/', MiembroList.as_view(), name='miembro-list'),

@@ -10,8 +10,8 @@ class Autor(models.Model):
     apellido = models.CharField(max_length=100, db_column='T001Apellido')#Declaracion del apellido
     biografia = models.TextField(db_column='T001Biografia')#Declaracion de la biografia
 
-    def _str_(self):
-        return f"{self.nombre} {self.apellido} {self.biografia}" #Retorno de los datos
+    def __str__(self):
+        return f"{self.nombre} {self.apellido}" #Retorno de los datos
 
     #Creacion de la tabla en base de datos
     class Meta:
@@ -29,8 +29,8 @@ class Editorial(models.Model):
     direccion = models.CharField(unique=True, max_length=100, db_column='T002Direccion')#Declaracion del direccion
     telefono = models.CharField(unique=True, max_length=100, db_column='T002Telefono')#Declaracion de la biografia
 
-    def _str_(self):
-        return f"{self.nombre} {self.direccion} {self.telefono}" #Retorno de los datos
+    def __str__(self):
+        return f"{self.nombre}"
 
     #Creacion de la tabla en base de datos
     class Meta:
@@ -49,8 +49,8 @@ class Libro(models.Model):
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE,related_name='libros', db_column='T003IdAutor')
     editorial = models.ForeignKey(Editorial, on_delete=models.CASCADE,related_name='editorial', db_column='T003IdEditorial')
 
-    def _str_(self):
-        return f"{self.titulo} {self.isbn} {self.publicacion}"
+    def __str__(self):
+        return f"{self.titulo}"
 
     class Meta:
         db_table = 'T003Libro'
@@ -63,11 +63,11 @@ class Miembro(models.Model):
     id_miembro = models.AutoField(primary_key=True, editable=False,db_column='T004IdMiembro')#Declaracion de la PK de Miembro
     nombre = models.CharField(max_length=100, db_column='T004Nombre')#Declaracion del nombre
     apellido = models.CharField(max_length=100, db_column='T004Apellido')#Declaracion del apellido
-    email = models.CharField(max_length=100, unique= True, db_column='T001Biografia')#Declaracion del email
+    email = models.CharField(max_length=100, unique= True, db_column='T004Biografia')#Declaracion del email
     fecha_membresia = models.DateField(db_column='T004Membresia')#Fecha membresia
 
     def _str_(self):
-        return f"{self.nombre} {self.apellido} {self.fecha_membresia}" #Retorno de los datos
+        return f"{self.nombre} {self.apellido}" #Retorno de los datos
 
     #Creacion de la tabla en base de datos
     class Meta:
@@ -86,7 +86,7 @@ class Prestamo(models.Model):
     miembro = models.ForeignKey(Miembro, on_delete=models.CASCADE, related_name='miembro', db_column='T005Miembro')
 
     def __str__(self):
-        return f"{self.fecha_inicial}{self.fecha_final}"
+        return f"Prestamo de {self.libro.titulo} a {self.miembro.nombre}"
     
     class Meta:
         db_table = 'T005Prestamo'
