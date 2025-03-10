@@ -118,7 +118,7 @@ class LibroByEditorial(generics.ListAPIView):
         return Response({'success': True, 'detail': 'Libros encontrados', 'data': serializer.data}, 
                         status=status.HTTP_200_OK)
     
-    
+
 #------MIEMBRO--------MIEMBRO---------MIEMBRO----------MIEMBRO-----------MIEMBRO-------------------MIEMBRO-------------MIEMBRO----- 
 
 #LISTAR
@@ -172,3 +172,33 @@ class CrearPrestamo(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'success':True, 'detail': 'prestamo creado correctamenre', 'data': serializer.data}, status=status.HTTP_201_CREATED)#Devuelve una respuesta del proceso
+    
+#SEARCH-BY-FECHA
+class PrestamoByFecha(generics.ListAPIView):
+    serializer_class = PrestamoSerializer  # Usar el serializador adecuado
+
+    def get(self, request, fecha):
+        prestamos = Prestamo.objects.filter(fecha_inicial=fecha)  # Filtrar por fecha de préstamo
+
+        if not prestamos.exists():
+            return Response({'success': False, 'detail': 'No se encontraron préstamos en esta fecha'}, 
+                            status=status.HTTP_404_NOT_FOUND)
+
+        serializer = PrestamoSerializer(prestamos, many=True)  # Serializar los resultados
+        return Response({'success': True, 'detail': 'Préstamos encontrados', 'data': serializer.data}, 
+                        status=status.HTTP_200_OK)
+    
+#SEARCH-BY-MIEMBRO
+class PrestamoByMiembro(generics.ListAPIView):
+    serializer_class = PrestamoSerializer  # Usar el serializador adecuado
+
+    def get(self, request, idMiembro):
+        prestamos = Prestamo.objects.filter(miembro_id=idMiembro)  # Filtrar por ID de miembro
+
+        if not prestamos.exists():
+            return Response({'success': False, 'detail': 'No se encontraron préstamos para este miembro'}, 
+                            status=status.HTTP_404_NOT_FOUND)
+
+        serializer = PrestamoSerializer(prestamos, many=True)  # Serializar los resultados
+        return Response({'success': True, 'detail': 'Préstamos encontrados', 'data': serializer.data}, 
+                        status=status.HTTP_200_OK)

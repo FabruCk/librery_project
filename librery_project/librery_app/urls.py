@@ -6,39 +6,55 @@ from .views import (
     EditorialList, CrearEditorial,
     LibroList, CrearLibro, LibroByAutor, LibroByEditorial,
     MiembroList, CrearMiembro,
-    PrestamoList, CrearPrestamo,
+    PrestamoList, CrearPrestamo, PrestamoByFecha, PrestamoByMiembro
 )
 
-# Define la lista de patrones de URL para la aplicación 'api_app'
 urlpatterns = [
-    # Rutas para la gestión de personas
-    # Lista de personas
-    path('autores/', AutorList.as_view(), name='autor-list'),
-    # Crear una nueva persona
-    path('autores/crear/', CrearAutor.as_view(), name='autor-crear'),
 
-    # Lista de personas
+    #AUTORES-----------AUTORES-----------AUTORES
+
+    #Listar autores
+    path('autores/', AutorList.as_view(), name='autor-list'),
+    # Crear una nuevo autor
+    path('autores/crear/', CrearAutor.as_view(), name='autor-crear'),
+    
+
+    #eDITORIAL----------------EDITORIAL---------------EDITORIAL
+
+    #Listar editoriales
     path('editoriales/', EditorialList.as_view(), name='editorial-list'),
-    # Crear una nueva persona
+    #Crear nuevo editorial
     path('editoriales/crear/', CrearEditorial.as_view(), name='editorial-crear'),
 
-        # Lista de personas
+
+    #LIBROS----------------LIBROS----------------LIBROS
+
+    #Listar libros
     path('libros/', LibroList.as_view(), name='libro-list'),
-    # Crear una nueva persona
+    #Crear libro
     path('libros/crear/', CrearLibro.as_view(), name='libro-crear'),
     #Buscar libros por autor
     path('libros/autor/<int:idAutor>/', LibroByAutor.as_view(), name='libros_by_autor'),
-
+    #Buscar libros por editorial
     path('libros/editorial/<int:idEditorial>/', LibroByEditorial.as_view(), name='libros_by_autor'),
 
 
-        # Lista de personas
-    path('miembro/', MiembroList.as_view(), name='miembro-list'),
-    # Crear una nueva persona
-    path('miembro/crear/', CrearMiembro.as_view(), name='miembro-crear'),
+    # MIEMBROS------------------MIEBROS------------MIEMBROS
 
-        # Lista de personas
+    #Listar miembros
+    path('miembros/', MiembroList.as_view(), name='miembro-list'),
+    #Crear miembros
+    path('miembros/crear/', CrearMiembro.as_view(), name='miembro-crear'),
+
+
+    # PRESTAMOS------------------PRESTAMOS------------PRESTAMOS
+
+    #Listar prestamos
     path('prestamos/', PrestamoList.as_view(), name='prestamo-list'),
-    # Crear una nueva persona
+    # Crear un prestamo
     path('prestamos/crear/', CrearPrestamo.as_view(), name='prestamo-crear'),
+    # Buscar préstamos por fecha de préstamo
+    path('prestamos/fecha/<str:fecha>/', PrestamoByFecha.as_view(), name='prestamos_by_fecha'),
+    # Buscar préstamos por miembro
+    path('prestamos/miembro/<int:idMiembro>/', PrestamoByMiembro.as_view(), name='prestamos_by_miembro'),
 ]

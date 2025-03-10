@@ -8,7 +8,7 @@ class Autor(models.Model):
     id_autor = models.AutoField(primary_key=True, editable=False,db_column='T001IdAutor')#Declaracion de la PK de autor
     nombre = models.CharField(max_length=100, db_column='T001Nombre')#Declaracion del nombre
     apellido = models.CharField(max_length=100, db_column='T001Apellido')#Declaracion del apellido
-    biografia = models.TextField(db_column='T001Biografia')#Declaracion de la biografia
+    biografia = models.TextField(db_column='T001Biografia', blank=True, null=True)#Declaracion de la biografia
 
     def __str__(self):
         return f"{self.nombre} {self.apellido}" #Retorno de los datos
@@ -27,7 +27,7 @@ class Editorial(models.Model):
     id_editorial = models.AutoField(primary_key=True, editable=False,db_column='T002IdEditorial')#Declaracion de la PK de editorial
     nombre = models.CharField(max_length=100, db_column='T002Nombre')#Declaracion del nombre
     direccion = models.CharField(unique=True, max_length=100, db_column='T002Direccion')#Declaracion del direccion
-    telefono = models.CharField(unique=True, max_length=100, db_column='T002Telefono')#Declaracion de la biografia
+    telefono = models.CharField(unique=True, max_length=100, db_column='T002Telefono', blank=True, null=True)#Declaracion de la biografia
 
     def __str__(self):
         return f"{self.nombre}"
@@ -81,7 +81,7 @@ class Prestamo(models.Model):
     #Atributos de la clase
     id_prestamo = models.AutoField(primary_key=True, editable=False, db_column='T005Prestamo')
     fecha_inicial = models.DateField(db_column='T005FechaPrestamo')
-    fecha_final = models.DateField(db_column='T005FechaDEvolucion')
+    fecha_final = models.DateField(db_column='T005FechaDEvolucion', blank=True, null=True)
     libro = models.ForeignKey(Libro, on_delete=models.CASCADE, related_name='prestamo', db_column='T005Libro')
     miembro = models.ForeignKey(Miembro, on_delete=models.CASCADE, related_name='miembro', db_column='T005Miembro')
 
